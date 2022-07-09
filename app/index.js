@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const path = require('path');
 const taskRouter = require('./routes/tasks.routes');
 
 const app = express();
@@ -19,6 +20,11 @@ app.use((error, request, response, next) => {
       status: "error",
       message: error.message,
     });
+});
+
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 // Routes
